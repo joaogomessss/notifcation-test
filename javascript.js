@@ -1,29 +1,30 @@
+// Get the notification button element
+const notificationBtn = document.getElementById('notification-btn');
 
-// check if the browser supports notifications
-if ("Notification" in window) {
-    // request permission from the user to show notifications
-    Notification.requestPermission().then(function (permission) {
-      // if the user grants permission
-      if (permission === "granted") {
-        console.log("Notification permission granted");
-        // create a notification object
-        var notification = new Notification("Button Clicked!", {
-          body: "You clicked the button.",
-        });
+// Add a click event listener to the button
+notificationBtn.addEventListener('click', function() {
+  // Check if the browser supports notifications
+  if (!('Notification' in window)) {
+    console.log('This browser does not support notifications.');
+    return;
+  }
+
+  // Request permission to show notifications
+  Notification.requestPermission()
+    .then(function(permission) {
+      if (permission === 'granted') {
+        // Create a notification
+        navigator.serviceWorker.ready
+          .then(function(registration) {
+            registration.showNotification('time is over', {
+              body: 'time is over',
+              icon: 'path/to/icon.png'
+            });
+          });
       }
     });
-  }
-  
-  // add a click event listener to the button
-  var button = document.getElementById("myButton");
-  button.addEventListener("click", function () {
-    console.log("Button clicked");
-    // show the notification when the button is clicked
-    if ("Notification" in window) {
-      // create a notification object
-      var notification = new Notification("Button Clicked!", {
-        body: "You clicked the button.",
-      });
-    }
-  });
-  
+});
+
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+});

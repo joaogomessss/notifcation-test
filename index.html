@@ -6,7 +6,23 @@
 </head>
 <body>
 
-      <button id="myButton">Show Notification</button>
+      <button id="notification-btn">Show xxx</button>
+  <!-- Register Service Worker -->
+  <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('sw.js')
+            .then(function(registration) {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(err) {
+              console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+      }
+    </script>
+  
+    <!-- Add Notification Button Logic -->
+    <script src="main.js"></script>
 
 </body>
 </html>
